@@ -52,6 +52,25 @@ import getLastRegistration from './utils';
     
     kidneyCalculation(kidneyData) {
         let lastRegistration = getLastRegistration(kidneyData);
+        switch(true){
+            case (lastRegistration.eGFR >= 90):
+                lastRegistration.classification = 'Normal'
+                break;
+            case (lastRegistration.eGFR >= 60 && lastRegistration.eGFR <= 89):
+                lastRegistration.classification = 'Mildly Decreased'
+                break;
+            case (lastRegistration.eGFR >= 45 && lastRegistration.eGFR <= 59):
+                lastRegistration.classification = 'Mild to Moderate'
+                break;
+            case (lastRegistration.eGFR >= 30 && lastRegistration.eGFR <= 44):
+                lastRegistration.classification = 'Moderate to Severe'
+                break;
+            case (lastRegistration.eGFR >= 15 && lastRegistration.eGFR <= 29):
+                lastRegistration.classification = 'Severely Decreased'
+                break;
+            default:
+                lastRegistration.classification = 'Kidney Failure' 
+        }
         return ([lastRegistration]);
     }
  };
