@@ -7,14 +7,14 @@ const DateError = {
 };
 
 function getLastRegistration(hypertensionData) {
-    let lastRegisteredValue = 0,
+    let lastRegisteredTimeValue = 0,
         lastDataRegistered = {}
     try{
         hypertensionData.forEach(data => {
             if(data.hasOwnProperty('atDate')){
-                let nextValue = moment(data.atDate, 'YYYY/MM/DD').valueOf();
-                if(nextValue > lastRegisteredValue){
-                    lastRegisteredValue = nextValue;
+                let nextDataTimeValue = moment(data.atDate, 'YYYY/MM/DD').valueOf();
+                if(nextDataTimeValue > lastRegisteredTimeValue){
+                    lastRegisteredTimeValue = nextDataTimeValue;
                     lastDataRegistered = data;
                 }
             }else{
