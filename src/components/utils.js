@@ -6,23 +6,32 @@ const DateError = {
     registrationValueDefault: {SysBP: '', DiaBP: '', atDate: ''}
 };
 
-function getLastRegistration(hypertensionData) {
-    let lastRegisteredTimeValue = 0,
-        lastDataRegistered = {}
+function getLastRegistration(DataRegistered) {
+    let lastDataRegisteredSorted = [];
+        
+    const isKidneyData = DataRegistered[0].hasOwnProperty('eGFR');
+    
     try{
-        hypertensionData.forEach(data => {
-            if(data.hasOwnProperty('atDate')){
-                let nextDataTimeValue = moment(data.atDate, 'YYYY/MM/DD').valueOf();
-                if(nextDataTimeValue > lastRegisteredTimeValue){
-                    lastRegisteredTimeValue = nextDataTimeValue;
-                    lastDataRegistered = data;
+        lastDataRegisteredSorted = DataRegistered.sort((a, b) => {
+            if(a.hasOwnProperty('atDate') && b.hasOwnProperty('atDate')){
+                let firstDataTimeValue = moment(a.atDate, 'YYYY/MM/DD').valueOf();
+                let nextDataTimeValue = moment(b.atDate, 'YYYY/MM/DD').valueOf();
+                if(firstDataTimeValue < nextDataTimeValue){
+                    return 1;
+                }else{
+                    return -1;
                 }
             }else{
-                throw DateError.target = JSON.stringify(data);
+                const target = a.hasOwnProperty('atDate') ? b : a;
+                throw DateError.target = JSON.stringify(target);
             }
-            
         });
-        return (lastDataRegistered);
+        console.log(lastDataRegisteredSorted);
+        if(!isKidneyData){
+            return lastDataRegisteredSorted[0];
+        }else{
+            return [lastDataRegisteredSorted[0], lastDataRegisteredSorted[1]]
+        }
     }catch(e){
         if(e !== DateError) {
             console.error(DateError.message + DateError.target);

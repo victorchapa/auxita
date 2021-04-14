@@ -8,8 +8,9 @@ const initialState = {
         {SysBP: 115, DiaBP: 80, atDate: '2018/11/15'}
     ],
     kidneyData: [
-        {eGFR: 65, atDate: '2018/10/31'},
-        {eGFR: 70, atDate: '2018/10/20'}
+        {eGFR: 50, atDate: '2018/10/31'},
+        {eGFR: 70, atDate: '2018/10/20'},
+        {eGFR: 70, atDate: '2018/09/20'}
     ]
 }
 

@@ -26,12 +26,14 @@ import getLastRegistration from './utils';
     }
 
     kidneyTableRender(kidneyData, hasClassification = false){
+        let hasDroppedPercentage = kidneyData[0].droppedPercentage ? true: false ;
         const kidneyDataItems = kidneyData.map((data, index) => {
             const dataCells = 
                 <tr key={index}>
                     <td>{data.eGFR}</td>
                     <td>{data.atDate}</td>
                     { hasClassification ? <td>{data.classification}</td> : false }
+                    { data.droppedPercentage ? <td>{data.droppedPercentage}%</td> : false }
                 </tr>
             return dataCells;
         });
@@ -41,6 +43,7 @@ import getLastRegistration from './utils';
                     <th>eGFR</th>
                     <th>Date</th>
                     { hasClassification ? <th>Classification</th> : false }
+                    { hasDroppedPercentage ? <th>Dropped Percentage</th> : false }
                 </tr>
             </thead>
             <tbody>
@@ -51,27 +54,35 @@ import getLastRegistration from './utils';
     }
     
     kidneyCalculation(kidneyData) {
-        let lastRegistration = getLastRegistration(kidneyData);
-        switch(true){
-            case (lastRegistration.eGFR >= 90):
-                lastRegistration.classification = 'Normal'
-                break;
-            case (lastRegistration.eGFR >= 60 && lastRegistration.eGFR <= 89):
-                lastRegistration.classification = 'Mildly Decreased'
-                break;
-            case (lastRegistration.eGFR >= 45 && lastRegistration.eGFR <= 59):
-                lastRegistration.classification = 'Mild to Moderate'
-                break;
-            case (lastRegistration.eGFR >= 30 && lastRegistration.eGFR <= 44):
-                lastRegistration.classification = 'Moderate to Severe'
-                break;
-            case (lastRegistration.eGFR >= 15 && lastRegistration.eGFR <= 29):
-                lastRegistration.classification = 'Severely Decreased'
-                break;
-            default:
-                lastRegistration.classification = 'Kidney Failure' 
+        let lastRegistrations = getLastRegistration(kidneyData);
+        let droppedPercentage = (((lastRegistrations[1].eGFR-lastRegistrations[0].eGFR)/lastRegistrations[0].eGFR)*100).toFixed(2);
+        
+        lastRegistrations.forEach((kidneyData) => {
+            switch(true){
+                case (kidneyData.eGFR >= 90):
+                    kidneyData.classification = 'Normal'
+                    break;
+                case (kidneyData.eGFR >= 60 && kidneyData.eGFR <= 89):
+                    kidneyData.classification = 'Mildly Decreased'
+                    break;
+                case (kidneyData.eGFR >= 45 && kidneyData.eGFR <= 59):
+                    kidneyData.classification = 'Mild to Moderate'
+                    break;
+                case (kidneyData.eGFR >= 30 && kidneyData.eGFR <= 44):
+                    kidneyData.classification = 'Moderate to Severe'
+                    break;
+                case (kidneyData.eGFR >= 15 && kidneyData.eGFR <= 29):
+                    kidneyData.classification = 'Severely Decreased'
+                    break;
+                default:
+                     kidneyData.classification = 'Kidney Failure' 
+            }
+        });
+        if(droppedPercentage >= 20){
+            lastRegistrations[0].droppedPercentage = droppedPercentage;
+            return (lastRegistrations);
         }
-        return ([lastRegistration]);
+        return ([lastRegistrations[0]]);
     }
  };
 
