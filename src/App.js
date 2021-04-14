@@ -9,7 +9,7 @@ function App() {
   return (
     <Provider store={store}>
       <div className="App">
-        {/*<HypertensionCalculator></HypertensionCalculator>*/}
+        <HypertensionCalculator></HypertensionCalculator>
         <KidneyCalculator></KidneyCalculator>
       </div>
     </Provider>

@@ -26,7 +26,6 @@ function getLastRegistration(DataRegistered) {
                 throw DateError.target = JSON.stringify(target);
             }
         });
-        console.log(lastDataRegisteredSorted);
         if(!isKidneyData){
             return lastDataRegisteredSorted[0];
         }else{
