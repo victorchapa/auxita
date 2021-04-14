@@ -1,0 +1,23 @@
+@import "~bootstrap/scss/bootstrap";
+@import "./colour-palette.scss";
+
+html, body {
+  background-color: $light-purple;
+}
+
+.auxita-button {
+  border-radius: 10px;
+  background-color: $pink;
+  border: solid 3px $light-pink;
+  color: $white;
+}
+
+div {
+  .no-collapse {
+    display: block;
+  }
+  .collapsed {
+    display: none;
+    overflow: hidden;
+  }
+}

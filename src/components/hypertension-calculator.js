@@ -1,26 +1,35 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import getLastRegistration from './utils';
+import { Col } from 'react-bootstrap';
+import "./hypertension-calculator.scss";
 
  class HypertensionCalculator extends Component {
 
     render (){
-        const { hypertensionData } = this.props;
-        const hypertensionTable = this.hypertensionTableRender(hypertensionData);
-        const lastData = this.hypertensionTableRender(this.hypertensionCalculation(hypertensionData), true);
+        const { hypertensionData, collapseHypertensionTables } = this.props;
+        const hypertensionTable = this.hypertensionTableRender(hypertensionData),
+            lastData = this.hypertensionTableRender(this.hypertensionCalculation(hypertensionData), true);
+        let isCollapsed = collapseHypertensionTables ? "collapsed" : "no-collapse";
         return(
-            <div>
-                <div className="table-container">
-                    <h3>Input Data:</h3>
-                    { hypertensionTable }
-                </div>
-                <div className="lastRegistration">
-                    <h3>Output Data:</h3>
-                    { lastData }
-                </div>
-                <div className="control-pannel">
-                    <input type="button" value="Upload"></input>
-                </div>
+            <div className="row hypertension-row-container">
+                <Col md="12">
+                    <h1>Hypertension Calculator</h1>
+                    <input className="auxita-button" type="button" value={collapseHypertensionTables ? "Show All" : "Hide All"}
+                        onClick={() => this.collapseTables()}/>
+                </Col>
+                <Col className={isCollapsed}>
+                    <div className="table-container">
+                        <h3>Input Data:</h3>
+                        { hypertensionTable }
+                    </div>
+                </Col>
+                <Col className={isCollapsed}>
+                    <div className="lastRegistration">
+                        <h3>Output Data:</h3>
+                        { lastData }
+                    </div>
+                </Col>
             </div>
         );
     }
@@ -36,7 +45,7 @@ import getLastRegistration from './utils';
                 </tr>
             return dataCells;
         });
-        const table = <table>
+        const table = <table className="auxita-table table table-dark table-striped table-bordered table-hover">
             <thead>
                 <tr>
                     <th>SysBP</th>
@@ -69,15 +78,29 @@ import getLastRegistration from './utils';
         }
         return ([lastRegistration]);
     }
+
+    collapseTables() {
+        this.props.collapseTablesAction();
+    }
+
  };
 
  HypertensionCalculator.defaultProps = {
-    hypertensionData: []
+    hypertensionData: [],
+    collapseHypertensionTables: false
  };
 
  function mapStateToProps(state) {
-    const { hypertensionData } = state;
-    return { hypertensionData: hypertensionData };
-}
+    const { hypertensionData,  collapseHypertensionTables} = state;
+    return { hypertensionData: hypertensionData, collapseHypertensionTables: collapseHypertensionTables };
+};
 
-export default connect(mapStateToProps)(HypertensionCalculator);
+function mapDispatchToProps(dispatch){
+    return {
+        collapseTablesAction: () => {
+            dispatch({ type: "COLLAPSE_HYPERTENSION_TABLES" });
+        }   
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(HypertensionCalculator);

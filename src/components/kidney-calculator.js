@@ -1,26 +1,35 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import getLastRegistration from './utils';
+import { Col } from 'react-bootstrap';
+import "./kidney-calculator.scss";
 
  class KidneyCalculator extends Component {
 
     render (){
-        const { kidneyData } = this.props;
-        const kidneyDiseaseTable = this.kidneyTableRender(kidneyData);
-        const lastDataCaptured = this.kidneyTableRender(this.kidneyCalculation(kidneyData), true);
+        const { kidneyData, collapseKidneyTables } = this.props;
+        const kidneyDiseaseTable = this.kidneyTableRender(kidneyData),
+            lastDataCaptured = this.kidneyTableRender(this.kidneyCalculation(kidneyData), true);
+        let isCollapsed = collapseKidneyTables ? "collapsed" : "no-collapse" ;
         return(
-            <div>
-                <div className="table-container">
-                    <h3>Input Data:</h3>
-                    { kidneyDiseaseTable }
-                </div>
-                <div className="lastRegistration">
-                    <h3>Output Data:</h3>
-                    { lastDataCaptured }
-                </div>
-                <div className="control-pannel">
-                    <input type="button" value="Upload"></input>
-                </div>
+            <div className="row kydney-row-container">
+                <Col md="12">
+                    <h1>Kidney Desease Calculator</h1>
+                    <input className="auxita-button" type="button" value={collapseKidneyTables ? "Show All" : "Hide All"}
+                        onClick={() => this.collapseTables()}/>
+                </Col>
+                <Col className={isCollapsed}>
+                    <div className="table-container">
+                        <h3>Input Data:</h3>
+                        { kidneyDiseaseTable }
+                    </div>
+                </Col>
+                <Col className={isCollapsed}>
+                    <div className="lastRegistration">
+                        <h3>Output Data:</h3>
+                        { lastDataCaptured }
+                    </div>
+                </Col>
             </div>
         );
     }
@@ -37,7 +46,7 @@ import getLastRegistration from './utils';
                 </tr>
             return dataCells;
         });
-        const table = <table>
+        const table = <table className="auxita-table table table-dark table-striped table-bordered table-hover">
             <thead>
                 <tr>
                     <th>eGFR</th>
@@ -84,15 +93,29 @@ import getLastRegistration from './utils';
         }
         return ([lastRegistrations[0]]);
     }
+
+    collapseTables() {
+        this.props.collapseTablesAction();
+    }
+
  };
 
  KidneyCalculator.defaultProps = {
-    kidneyData: []
+    kidneyData: [],
+    collapseKidneyTables: false
  };
 
  function mapStateToProps(state) {
-    const { kidneyData } = state;
-    return { kidneyData: kidneyData };
+    const { kidneyData, collapseKidneyTables } = state;
+    return { kidneyData: kidneyData, collapseKidneyTables: collapseKidneyTables };
 }
 
-export default connect(mapStateToProps)(KidneyCalculator);
+function mapDispatchToProps(dispatch){
+    return {
+        collapseTablesAction: () => {
+            dispatch({ type: "COLLAPSE_KIDNEY_TABLES" });
+        }   
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(KidneyCalculator);
