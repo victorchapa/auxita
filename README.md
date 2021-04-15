@@ -9,7 +9,7 @@ In the project directory, you can run:
 
 ### `npm install`
 
-Installs all the dependencies need it to run the app .\
+Installs all the dependencies need it to run the app.
 
 ### `npm start / npm run start`
 
@@ -21,7 +21,7 @@ You will also see any lint errors in the console.
 
 ### `npm test / npm run test`
 
-Launches the tests.\
+Launches the tests.
 
 ### `npm run build`
 
@@ -33,7 +33,7 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-## Learn More
+<!--- ## Learn More 
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
@@ -62,3 +62,4 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+--->
