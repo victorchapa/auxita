@@ -64,7 +64,10 @@ import "./kidney-calculator.scss";
     
     kidneyCalculation(kidneyData) {
         let lastRegistrations = getLastRegistration(kidneyData);
-        let droppedPercentage = (((lastRegistrations[1].eGFR-lastRegistrations[0].eGFR)/lastRegistrations[0].eGFR)*100).toFixed(2);
+        let droppedPercentage = 0;
+        if(lastRegistrations.length >= 2){
+            droppedPercentage = (((lastRegistrations[1].eGFR-lastRegistrations[0].eGFR)/lastRegistrations[0].eGFR)*100).toFixed(2);
+        }
         
         lastRegistrations.forEach((kidneyData) => {
             switch(true){

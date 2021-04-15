@@ -29,7 +29,10 @@ function getLastRegistration(DataRegistered) {
         if(!isKidneyData){
             return lastDataRegisteredSorted[0];
         }else{
-            return [lastDataRegisteredSorted[0], lastDataRegisteredSorted[1]]
+            if(lastDataRegisteredSorted.length >= 2){
+                return [lastDataRegisteredSorted[0], lastDataRegisteredSorted[1]]
+            }
+            return [lastDataRegisteredSorted[0]]
         }
     }catch(e){
         if(e !== DateError) {
