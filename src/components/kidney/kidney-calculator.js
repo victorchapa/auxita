@@ -9,7 +9,7 @@ import "./kidney-calculator.scss";
     render (){
         const { kidneyData, collapseKidneyTables } = this.props;
         const kidneyDiseaseTable = this.kidneyTableRender(kidneyData),
-            lastDataCaptured = this.kidneyTableRender(this.kidneyCalculation(kidneyData), true);
+            lastDataCaptured = this.kidneyTableRender(this.kidneyCalculation(kidneyData), true, true);
         let isCollapsed = collapseKidneyTables ? "collapsed" : "no-collapse" ;
         return(
             <div className="row kydney-row-container">
@@ -34,15 +34,14 @@ import "./kidney-calculator.scss";
         );
     }
 
-    kidneyTableRender(kidneyData, hasClassification = false){
-        let hasDroppedPercentage = kidneyData[0].droppedPercentage ? true: false ;
+    kidneyTableRender(kidneyData, hasClassification = false, hasDroppedPercentage = false){
         const kidneyDataItems = kidneyData.map((data, index) => {
             const dataCells = 
                 <tr key={index}>
                     <td>{data.eGFR}</td>
                     <td>{data.atDate}</td>
                     { hasClassification ? <td>{data.classification}</td> : false }
-                    { data.droppedPercentage ? <td>{data.droppedPercentage}%</td> : false }
+                    { hasDroppedPercentage && data.droppedPercentage ? <td>{data.droppedPercentage}%</td> : false }
                 </tr>
             return dataCells;
         });

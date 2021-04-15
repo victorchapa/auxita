@@ -7,12 +7,12 @@ const DateError = {
 };
 
 function getLastRegistration(DataRegistered) {
-    let lastDataRegisteredSorted = [];
+    let lastDataRegisteredSorted = [... DataRegistered];
         
-    const isKidneyData = DataRegistered[0].hasOwnProperty('eGFR');
+    const isKidneyData = lastDataRegisteredSorted[0].hasOwnProperty('eGFR');
     
     try{
-        lastDataRegisteredSorted = DataRegistered.sort((a, b) => {
+        lastDataRegisteredSorted = lastDataRegisteredSorted.sort((a, b) => {
             if(a.hasOwnProperty('atDate') && b.hasOwnProperty('atDate')){
                 let firstDataTimeValue = moment(a.atDate, 'YYYY/MM/DD').valueOf();
                 let nextDataTimeValue = moment(b.atDate, 'YYYY/MM/DD').valueOf();
