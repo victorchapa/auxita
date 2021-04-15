@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import getLastRegistration from './utils';
+import getLastRegistration from '../utils';
 import { Col } from 'react-bootstrap';
 import "./kidney-calculator.scss";
 
