@@ -68,7 +68,7 @@ describe('Hypertension Component testing', () => {
         expect(outPutTables.html()).toStrictEqual(htmlOutputTableMocked);
     });
 
-    it('Should be shorted with the lastest register [2018/11/15]', () => {
+    it('Should be not shorted with the registers on the store [2018/10/31]', () => {
         const store = mockStore(storeMockedData);
         mount(
             <Provider store={store}>
@@ -76,7 +76,7 @@ describe('Hypertension Component testing', () => {
             </Provider>
         );
         const lastDataRegistered = store.getState('hypertensionData').hypertensionData[0].atDate;
-        expect(lastDataRegistered).toBe("2018/11/15");
+        expect(lastDataRegistered).toBe("2018/10/31");
     });
 
     it('For OutPutValue if SySBP:115 & DiaBP: 80 classification needs to be "No Hypertension"', () => {

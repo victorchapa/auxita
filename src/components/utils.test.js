@@ -40,12 +40,12 @@ describe('Utils getRegistration function testing', () => {
             expect(console.error).toHaveBeenCalledWith(errorWording);
         });
 
-        it('Should short the input in order to get the more last reading-data', () => {
+        it('Should not short the input-data comming from the store', () => {
             const shortedHypertensionDataMock = [
-                {SysBP: 120, DiaBP: 99, atDate: '2020/11/15'},
-                {SysBP: 115, DiaBP: 80, atDate: '2018/11/15'},
                 {SysBP: 120, DiaBP: 90, atDate: '2018/10/31'},
-                {SysBP: 115, DiaBP: 100, atDate: '2018/10/20'}
+                {SysBP: 115, DiaBP: 100, atDate: '2018/10/20'},
+                {SysBP: 115, DiaBP: 80, atDate: '2018/11/15'},
+                {SysBP: 120, DiaBP: 99, atDate: '2020/11/15'}
             ];
             getLastRegistration(hypertensionDataMock);
             expect(hypertensionDataMock).toStrictEqual(shortedHypertensionDataMock);
